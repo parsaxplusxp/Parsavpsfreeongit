@@ -19,10 +19,10 @@ jobs:
         shell: cmd
         run: |
           net user banana /add
-          net user banana 123
+          net user banana Parsa@123
           reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
           netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
           net localgroup "Remote Desktop Users" banana /add
           net localgroup Administrators banana /add
           ipconfig
-          echo successfully, user: banana, pass: 123.
+          echo successfully, user: banana, pass: Parsa@123 .
