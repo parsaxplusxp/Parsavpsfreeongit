@@ -1,0 +1,28 @@
+name: Windows Commands Runner
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  run-windows-commands:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: create vps
+        shell: cmd
+        run: |
+          net user banana /add
+          net uset banana 123
+          reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+          netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
+          net localgroup "Remote Desktop Users" banana /add
+          net localgroup Administrators banana /add
+          ipconfig
+          echo successfully, user: banana, pass: 123.
