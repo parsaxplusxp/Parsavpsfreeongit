@@ -20,9 +20,9 @@ jobs:
         run: |
           net user banana /add
           net user banana Parsa@123
-          reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
-          netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
-          net localgroup "Remote Desktop Users" banana /add
-          net localgroup Administrators banana /add
+          dism /Online /Add-Capability /CapabilityName:OpenSSH.Server~~~~0.0.1.0
+          net start sshd
+          sc config sshd start=auto
+          netsh advfirewall firewall add rule name="OpenSSH Server" dir=in action=allow protocol=TCP localport=22
           ipconfig
           echo successfully, user: banana, pass: Parsa@123 .
